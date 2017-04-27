@@ -1,0 +1,159 @@
+<g
+   id="g2523"
+   transform="translate(0,75)">
+  <rect
+     y="175"
+     x="25"
+     height="100"
+     width="25"
+     id="rect2411"
+     style="opacity:1;fill: #b1d88a ; fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  <path
+     id="path2413"
+     d="M 25,275 L 37.5,255 L 50,275"
+     style="opacity:1;fill:none;fill-opacity:0.11764706;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  <text
+     id="text2398"
+     y="229.36816"
+     x="29.425781"
+     style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 100%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+    <tspan
+       y="229.36816"
+       x="29.425781"
+       id="tspan2400">PC</tspan> </text>
+</g>
+
+<path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible     ;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 50,300 L 85,300"
+   id="path2438" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2519"
+   transform="matrix(1, 0, 0, 1, 136.15432739257812, 67.23967742919922)" />
+
+<g
+   id="layer1"><g
+   id="g2657"
+   transform="translate(-15,75)">
+  <rect
+     y="175"
+     x="100"
+     height="100"
+     width="75"
+     id="rect2395"
+     style="fill: #c18989 ; fill-rule:evenodd;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <text
+     id="text2397"
+     y="228.12598"
+     x="112.67969"
+     style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 125%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+    <tspan
+       y="228.12598"
+       x="112.67969"
+       id="tspan2399">Memory</tspan> </text>
+</g>
+
+ <path
+   id="path2545"
+   d="M 160,300 L 185,300"
+   style="fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2547"
+   transform="matrix(1, 0, 0, 1, 236.15432739257812, 67.23967742919922)" />
+<text
+   x="165"
+   y="295"
+   id="text2833"
+   style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 100%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2835"
+     x="165"
+     y="295">IR</tspan>
+</text>
+
+<path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 60,300 L 60,155 L 95,155"
+   id="path2442" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2521"
+   transform="matrix(1, 0, 0, 1, 151.15432739257812, -77.76032257080078)" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   id="path2602"
+   d="M 235,82.5 A 2.5,2.5 0 1 1 230,82.5 A 2.5,2.5 0 1 1 235,82.5 z"
+   transform="translate(-172.5,217.5)" />
+
+       <path
+   style="opacity:1;fill: #a5b7cc ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 100,100 L 130,115 L 130,155 L 100,170 L 100,140 L 110,135 L 100,130 L 100,100 z"
+   id="path2402" />
+<text
+   x="132.88281"
+   y="-116.75"
+   id="text2414"
+   transform="matrix(0,1,-1,0,0,0)"
+   style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2416"
+     x="132.88281"
+     y="-116.75">Adder</tspan>
+</text>
+
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 60.168494,116.81247 h 39.216964 l -4.297749,-4.29775"
+   id="path523"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 99.385458,117.34968 -3.76053,3.76054"
+   id="path525"
+   inkscape:connector-curvature="0" />
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:12px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill: rgb(0, 0, 0);fill-opacity:1;stroke:none"
+   x="52.110214"
+   y="122.72187"
+   id="text533"><tspan
+     sodipodi:role="line"
+     id="tspan531"
+     x="52.110214"
+     y="122.72187">4</tspan></text>
+
+<path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 130,135 L 155,135 L 155,110 L 185,110"
+   id="path2811" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2813"
+   transform="matrix(1, 0, 0, 1, 236.15432739257812, -122.76032257080078)" />
+<text
+   x="99.058594"
+   y="65"
+   id="text2885"
+   style="font-size: 20px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 100%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2887"
+     x="99.058594"
+     y="65">IF</tspan>
+</text>
+
+<text
+   x="108.0625"
+   y="27.167969"
+   id="text2837"
+   style="font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2839"
+     x="108.0625"
+     y="27.167969"> DATA0 </tspan>
+</text>

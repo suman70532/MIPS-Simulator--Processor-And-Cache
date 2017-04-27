@@ -1,0 +1,235 @@
+<g
+   id="g2641"
+   transform="matrix(1.190762,0,0,1.411047,485.23096,-113.99805)">
+  <rect
+     y="154.03214"
+     x="25.030821"
+     height="370.93735"
+     width="22.938358"
+     id="rect2643"
+     style="display:inline;overflow:visible;visibility:visible;opacity:1;fill: #b1d88a ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.05619049;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+  <text
+     id="text2647"
+     y="-33.682617"
+     x="350.00006"
+     transform="rotate(90)"
+     style="font-style:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:100%;font-family:'DejaVu Sans';font-variant-ligatures:normal;font-variant-caps:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;white-space:pre;fill: #e5e5e5 ;fill-opacity:1;stroke:none;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
+    <tspan
+       y="-33.682617"
+       x="350.00006"
+       id="tspan2649">EX / MEM</tspan>
+  </text>
+</g>
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 540,110 L 560,110 L 560,135 L 600,135"
+   id="path2777" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2779"
+   transform="matrix(1, 0, 0, 1, 651.1543579101562, -97.76032257080078)" />
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 600,165 L 555,165 L 555,325"
+   id="path2765" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   id="path2767"
+   d="M 235,82.5 A 2.5,2.5 0 1 1 230,82.5 A 2.5,2.5 0 1 1 235,82.5 z"
+   transform="translate(322.5,242.5)" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2771"
+   transform="matrix(1, 0, 0, 1, 651.1543579101562, -67.76032257080078)" />
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 540,195 L 610,195 L 610,170"
+   id="path2795" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2797"
+   transform="matrix(0, -1, 1, 0, 377.23968505859375, 118.84567260742188)" />
+
+    <g
+   id="g2688"
+   transform="translate(130.75,-39)">
+  <path
+     id="path2690"
+     d="M 469.25,164 L 469.25,214 L 489.25,204 L 489.25,174 L 469.25,164 z"
+     style="opacity:1;fill:#d3d7cf;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  <text
+     transform="matrix(0,1,-1,0,0,0)"
+     id="text2692"
+     y="-475"
+     x="188.6875"
+     style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+    <tspan
+       y="-475"
+       x="188.6875"
+       id="tspan2694">MUX</tspan> </text>
+</g>
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 620,150 L 640,150 L 640,90 L 10,90 L 10,300 L 25,300"
+   id="path2807" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2809"
+   transform="matrix(1, 0, 0, 1, 76.15432739257812, 67.23967742919922)" />
+<text
+   x="612.0625"
+   y="102"
+   id="text2841"
+   style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2843"
+     x="612.0625"
+     y="102">Next PC</tspan> </text>
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 540,325 L 570,325"
+   id="path2757" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2759"
+   transform="matrix(1, 0, 0, 1, 626.1543579101562, 92.23968505859375)" />
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 540,375 L 550,375 L 570,375"
+   id="path2761" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2763"
+   transform="matrix(1, 0, 0, 1, 626.1543579101562, 142.23968505859375)" />
+
+    <g
+   id="g2662"
+   transform="translate(475,125)">
+  <rect
+     y="175"
+     x="100"
+     height="100"
+     width="75"
+     id="rect2664"
+     style="fill: #c18989 ; fill-rule:evenodd;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <text
+     id="text2666"
+     y="228.12598"
+     x="112.67969"
+     style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 125%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+    <tspan
+       y="228.12598"
+       x="112.67969"
+       id="tspan2668">Memory</tspan> </text>
+</g>
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 650.44,350 L 675.24,350"
+   id="path2781" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2783"
+   transform="matrix(1, 0, 0, 1, 731.1543579101562, 117.23967742919922)" />
+
+    <path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1.0;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 555,270 L 680,270"
+   id="path2905" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   id="path2907"
+   d="M 235,82.5 A 2.5,2.5 0 1 1 230,82.5 A 2.5,2.5 0 1 1 235,82.5 z"
+   transform="translate(322.5,187.5)" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2769"
+   transform="matrix(1, 0, 0, 1, 731.1543579101562, 37.239681243896484)" />
+
+    <path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 680,425 L 540,425"
+   id="path2909" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2919"
+   transform="matrix(1, 0, 0, 1, 731.1543579101562, 192.23968505859375)" />
+<text
+   x="586.90625"
+   y="65"
+   id="text2897"
+   style="font-size: 20px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 100%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2899"
+     x="586.90625"
+     y="65">MEM</tspan>
+</text>
+
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 556.02135,539.06636 1.07444,99.92268 -70.91287,1.07443"
+   id="path6518"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 489.40623,636.30294 -3.76053,3.76053 3.76053,3.22332"
+   id="path6520"
+   inkscape:connector-curvature="0" />
+
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 567.30294,425.176 1.61166,233.15291 h -83.2689 l 3.76053,-2.68609"
+   id="path6526"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 485.6457,658.86613 3.76053,2.14887"
+   id="path6528"
+   inkscape:connector-curvature="0" />
+
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 542.05366,539.06636 138.60243,-0.53722"
+   id="path511"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 677.43277,533.15695 2.6861,5.37219 -3.22331,4.29775"
+   id="path517"
+   inkscape:connector-curvature="0" />
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:12px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill: rgb(0, 0, 0);fill-opacity:1;stroke:none"
+   x="685.49103"
+   y="542.28967"
+   id="text521"><tspan
+     sodipodi:role="line"
+     id="tspan519"
+     x="685.49103"
+     y="542.28967">wb</tspan></text>
+
+    <text
+   x="610.10938"
+   y="25.371094"
+   id="text2861"
+   style="font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width:2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     x="610.10938"
+     y="25.371094"
+     id="tspan2869"> DATA3 </tspan>
+</text>

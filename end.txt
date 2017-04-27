@@ -1,0 +1,18 @@
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke:#cc0000;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 693,5 L 693,69.999951"
+   id="path2877" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke:#cc0000;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 528,5 L 528,69.999951"
+   id="path2879" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke:#cc0000;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 363,5 L 363,69.999951"
+   id="path2881" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke:#cc0000;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 198,5 L 198,69.999951"
+   id="path2883" />
+</g>
+</svg>

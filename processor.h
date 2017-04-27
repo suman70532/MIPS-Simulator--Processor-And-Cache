@@ -16,7 +16,7 @@ typedef struct ins_mem
 }ins_mem;
 typedef struct IF_ID_read
 {
-    double pc;
+    int pc;
     struct ins_mem instruction;
     char Rn[10];
     double rn;
@@ -28,7 +28,7 @@ typedef struct IF_ID_read
 }IF_ID_read;
 typedef struct ID_EX_read
 {
-    double pc;
+    int pc;
     int RW;
     int MR;
     char Rn[10];
@@ -41,7 +41,7 @@ typedef struct ID_EX_read
 typedef struct EX_MEM_read
 {
     double hilo;
-    double pc;
+    int pc;
     int RW;
     int MW;
     char Rd[10];
@@ -51,6 +51,7 @@ typedef struct EX_MEM_read
 typedef struct MEM_WB_read
 {
     double hilo;
+    int pc;
     int MR;
     int RW;
     char Rd[10];
@@ -60,7 +61,7 @@ typedef struct MEM_WB_read
 
 typedef struct IF_ID_write
 {
-    double pc;
+    int pc;
     struct ins_mem instruction;
     char Rn[10];
     char Rm[10];
@@ -71,7 +72,7 @@ typedef struct IF_ID_write
 }IF_ID_write;
 typedef struct ID_EX_write
 {
-    double pc;
+    int pc;
     int RW;
     int MR;
     char Rn[10];
@@ -84,7 +85,7 @@ typedef struct ID_EX_write
 typedef struct EX_MEM_write
 {
     double hilo;
-    double pc;
+    int pc;
     int RW;
     int MW;
     char Rd[10];
@@ -94,6 +95,7 @@ typedef struct EX_MEM_write
 typedef struct MEM_WB_write
 {
     double hilo;
+    int pc;
     int RW;
     int MR;
     char Rd[10];

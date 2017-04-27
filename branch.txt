@@ -1,0 +1,48 @@
+<path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 395,280.00001 L 395,194.97602 L 415,195"
+   id="path2712" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2755"
+   transform="matrix(1, 0, 0, 1, 471.1543273925781, -37.760318756103516)" />
+
+    <g
+   id="g2714"
+   transform="translate(-20,70)">
+  <rect
+     y="110"
+     x="440"
+     height="30"
+     width="40.666668"
+     id="rect2613"
+     style="fill: #f4b170 ;fill-rule:evenodd;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <text
+     id="text2615"
+     y="129.36816"
+     x="460.48569"
+     style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+    <tspan
+       y="129.36816"
+       x="460.48569"
+       id="tspan2617">Zero?</tspan> </text>
+</g>
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 459.42859,195 L 514.42859,195"
+   id="path2751" />
+<text
+   x="465"
+   y="180"
+   id="text2827"
+   style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 100%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2829"
+     x="465"
+     y="180">Branch</tspan>
+  <tspan
+     x="465"
+     y="192"
+     id="tspan2831">taken</tspan>
+</text>

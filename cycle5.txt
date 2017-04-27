@@ -1,0 +1,151 @@
+ <g
+   id="g2678"
+   transform="matrix(1.063587,0,0,1.39288,651.79868,-110.44651)">
+  <rect
+     y="175"
+     x="25"
+     height="353.995"
+     width="25"
+     id="rect2680"
+     style="display:inline;overflow:visible;visibility:visible;opacity:1;fill: #b1d88a ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none" />
+  <text
+     id="text2684"
+     y="-33.682617"
+     x="350.00006"
+     transform="rotate(90)"
+     style="font-style:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:100%;font-family:'DejaVu Sans';font-variant-ligatures:normal;font-variant-caps:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;white-space:pre;fill: #e5e5e5 ;fill-opacity:1;stroke:none;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
+    <tspan
+       y="-33.682617"
+       x="350.00006"
+       id="tspan2686">MEM / WB</tspan>
+  </text>
+</g>
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 705,270 L 720,270 L 720,295 L 735,295"
+   id="path2785" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2791"
+   transform="matrix(1, 0, 0, 1, 786.1543579101562, 62.239681243896484)" />
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 735,325 L 720,325 L 720,350 L 705,350"
+   id="path2787" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2789"
+   transform="matrix(1, 0, 0, 1, 786.1543579101562, 92.23967742919922)" />
+
+    <g
+   id="g2670"
+   transform="translate(265.75,121)">
+  <path
+     id="path2672"
+     d="M 469.25,164 L 469.25,214 L 489.25,204 L 489.25,174 L 469.25,164 z"
+     style="opacity:1;fill:#d3d7cf;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  <text
+     transform="matrix(0,1,-1,0,0,0)"
+     id="text2674"
+     y="-475"
+     x="188.6875"
+     style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+    <tspan
+       y="-475"
+       x="188.6875"
+       id="tspan2676">MUX</tspan> </text>
+</g>
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 755,310 L 780,310 L 780,475 L 235,475 L 235,215 L 265,215"
+   id="path2799" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2803"
+   transform="matrix(1, 0, 0, 1, 316.1543273925781, -17.76032066345215)" />
+<text
+   x="741.28516"
+   y="490"
+   id="text2823"
+   style="font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2825"
+     x="741.28516"
+     y="490">WB Data</tspan>
+</text>
+
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 265,240 L 245,240 L 245,460 L 725,460 L 725,425 L 705,425"
+   id="path2801" />
+<path
+   style="opacity:1;fill: #e5e5e5 ;fill-opacity:1;stroke: #e5e5e5 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2805"
+   transform="matrix(1, 0, 0, 1, 316.1543273925781, 7.23967981338501)" />
+<text
+   x="737.33594"
+   y="65"
+   id="text2901"
+   style="font-size: 20px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 100%; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     id="tspan2903"
+     x="737.33594"
+     y="65">WB</tspan>
+</text>
+
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 705.36815,537.99192 h 19.33987 l 0.53722,108.51818 -238.5251,1.07444 3.22331,-3.76053"
+   id="path6522"
+   inkscape:connector-curvature="0"
+   sodipodi:nodetypes="ccccc" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 486.18292,648.12176 3.76053,3.22331"
+   id="path6524"
+   inkscape:connector-curvature="0" />
+
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 725.78246,440.75534 h 22.02596"
+   id="path6530"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 485.6457,667.46163 263.23716,-2.6861 -0.53722,-224.55741"
+   id="path6532"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 485.6457,666.92441 c 2.37539,-1.18769 1.5826,-0.50816 2.68609,-1.61166 0.17908,-0.17907 0.42397,-0.3107 0.53722,-0.53722 0.0801,-0.16016 0,-0.35814 0,-0.53721"
+   id="path6541"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e5 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 485.6457,667.46163 3.22331,3.22331"
+   id="path6547"
+   inkscape:connector-curvature="0" />
+<circle
+   style="fill: #e5e5e5 ;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   id="path6609"
+   cx="747.58612"
+   cy="439.31042"
+   r="3.7987099" />
+
+    <text
+   x="753.46875"
+   y="25"
+   id="text2873"
+   style="font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; text-align: center; line-height: 100%; writing-mode: lr-tb; text-anchor: middle; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 2px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: &quot;DejaVu Sans&quot;; white-space: pre;">
+  <tspan
+     x="753.46875"
+     y="25"
+     id="tspan2875"> DATA4 </tspan>
+</text>
+

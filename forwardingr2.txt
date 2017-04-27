@@ -1,0 +1,50 @@
+ 
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e0 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 375,340 L 405,340"
+   id="path2743" />
+<path
+   style="opacity:1;fill: #e5e5e0 ;fill-opacity:1;stroke: #e5e5e0 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2745"
+   transform="matrix(1, 0, 0, 1, 461.1543273925781, 107.23967742919922)" />
+   
+<path
+   style="fill:none;stroke: #e5e5e1 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 381.39047,475.0183 -0.75974,-121.81859"
+   id="path1431"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e1 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 381.39047,353.45959 h 25.83122 l -2.27922,-4.55846"
+   id="path1437"
+   inkscape:connector-curvature="0" />
+<path
+   style="fill:none;stroke: #e5e5e1 ;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 407.5,353.5 -3,3.5"
+   id="path1439"
+   inkscape:connector-curvature="0" />
+<ellipse
+   style="fill: #e5e5e1 ;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   id="path1443"
+   cx="382"
+   cy="475.25"
+   rx="2.5"
+   ry="2.75" />
+   
+    <path
+   style="opacity:1;fill:none;fill-opacity:1;stroke: #e5e5e2 ;stroke-width:2;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M 410,370 L 395,370 L 395, 635 L 660, 635 L 660 352.25"
+   id="path2739" />
+<path
+   style="opacity:1;fill: #e5e5e2 ;fill-opacity:1;stroke: #e5e5e2 ;stroke-width:2.00000024;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   d="M -59.154329,230.76032 L -59.154329,234.76032 L -51.154329,232.76032 L -59.154329,230.76032"
+   id="use2747"
+   transform="matrix(1, 0, 0, 1, 461.1543273925781, 137.23968505859375)" />
+   <ellipse
+   style="fill: #e5e5e2 ;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   id="path1443"
+   cx="660"
+   cy="352.25"
+   rx="2.5"
+   ry="2.75" />

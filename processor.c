@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "processor.h"
+#include "cache.h"
+#include "helper.h"
 #include <pthread.h>
 #include <math.h>
+#include <stdbool.h>
 
 int az = 0;
 int idle_cycle;
@@ -13,8 +16,14 @@ int no_branch = 0;
 int cycles = 0;
 int instructions_executed = 0;
 double address_start = 268500992;
+int pc_start = 4194304;
+int break_point[1000];
+int no_breakpoint = 0; 
+int pc_value = 0;
+int pc_value2 = 0;
 int offset = 0;
 int bt = 0;
+int jt = 0;
 double pc_read = 0;
 double pc_write = 0;
 int fwdA = 0;
@@ -48,6 +57,7 @@ int max;
 int row = 0;
 FILE* out;
 FILE* svgout;
+FILE* TRACE;
 char* temp;
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -56,10 +66,10 @@ double binary_to_int(int a[])
 
 	double b = 0,c = a[31];
 	int i;
-//	printf("agvhejbdkfffffxdcfgvhbjklcvbhnbcvnbnjmkcnvbn\n");
-//	for(i = 0;i < 32 ;i++)
-//		printf("%d", a[i]);
-//	printf("\n");
+	//printf("agvhejbdkfffffxdcfgvhbjklcvbhnbcvnbnjmkcnvbn\n");
+	//for(i = 0;i < 32 ;i++)
+	//	printf("%d", a[i]);
+	//printf("\n");
 	for(i = 30;i >= 0 ;i--)
 	{
 		b = b*2 + a[i];
@@ -588,7 +598,7 @@ double take_value(char c[]){
 		i++;
 	}
 	return(binary_to_int(register_file[atoi(index)]));
-//	printf("kuch to bta de bhai\n");
+	//printf("kuch to bta de bhai\n");
 }
 void write_value(double a , char b[]){
 	int i = 1;
@@ -616,6 +626,40 @@ void write_value(double a , char b[]){
 			register_file[atoi(index)][i] = register_file[atoi(index)][i] ^ 1;
 		}
 	}
+}
+void setr31(int a){
+    int i;
+    a = a + pc_start; 
+    if(a >= 0){
+        for(i = 0;i < 32;i++)
+        {
+            register_file[31][i] = (int) a%2 ;
+            a = a/2;
+        }
+    }
+    else{
+        a = -1*a - 1;
+        for(i = 0; i < 32;i++){
+            register_file[31][i] = (int) a%2;
+            a = a/2;
+        }
+        for(i = 0;i<32;i++){
+            register_file[31][i] = register_file[31][i] ^ 1;
+        }
+    }
+}
+
+void movlo(char b[]){
+    int i = 1;
+    char index[3];
+    char no[33];
+    while(b[i] != '\0')
+    {
+        index[i-1] = b[i];
+        i++;
+    }
+    for(i = 0; i < 31; i++)
+        register_file[atoi(index)][i] = LU[i];
 }
 
 void set_LH(double a, int b){
@@ -655,12 +699,12 @@ void set_LH(double a, int b){
 	for(i = 32;i < 64;i++){
 		HI[i-32] = result[i];
 	}
-//	printf("result\n");
+	//printf("result\n");
 		for(i = 31;i >=0;i--){
-//		printf("%d",HI[i]);
+	//	printf("%d",HI[i]);
 	}
 	for(i = 31;i>=0;i--){
-//		printf("%d",LU[i]);
+	//	printf("%d",LU[i]);
 	}	
 }
 
@@ -669,7 +713,7 @@ void add_function(int index, char a[], char b[], char c[], char d[]){
 	int z[32];
 	int i;
     if(index == 0){
-    	ifidwrite.pc = pc_read;
+    	ifidwrite.pc = pc_value;
         strncpy(ifidwrite.Rn,c,10);
         strncpy(ifidwrite.Rm,d,10);
         strncpy(ifidwrite.Rd,b,10);
@@ -677,18 +721,18 @@ void add_function(int index, char a[], char b[], char c[], char d[]){
     if(index == 1){
     	idexwrite.pc = ifidread.pc;
         strncpy(idexwrite.Rn,ifidread.Rn,10);
-//        printf(" ****** Here (%s)\n", ifidread.Rm);
+        //printf(" ****** Here (%s)\n", ifidread.Rm);
         strncpy(idexwrite.Rm,ifidread.Rm,10);
         strncpy(idexwrite.Rd,ifidread.Rd,10);
         idexwrite.RW = 1;
         idexwrite.MR = 0;
         //if(fwdA == 0 ){
         	idexwrite.rn = take_value(c);
-//        	printf(" ******** rn = %lf \n",idexwrite.rn);
+        	//printf(" ******** rn = %lf \n",idexwrite.rn);
     	//}	
         //if(fwdB == 0){
 			idexwrite.rm = take_value(d);
-//			printf(" ******** rm = %lf \n",idexwrite.rm);
+			//printf(" ******** rm = %lf \n",idexwrite.rm);
 		//}
     }
     else if(index == 2){
@@ -697,9 +741,11 @@ void add_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.RW = 1;
         exmemwrite.MW = 0;
         //alu
+        if(row > pc_value/4)
+    		pc_value += 4;
         if(strcmp(a, "add") == 0){
          	exmemwrite.rd = idexread.rn + idexread.rm;
- //        	printf("========= %lf %lf %lf ==========\n", idexread.rn, idexread.rm, exmemwrite.rd);
+         	//printf("========= %lf %lf %lf ==========\n", idexread.rn, idexread.rm, exmemwrite.rd);
          	}        	
         else if(strcmp(a, "sub") == 0)
         	exmemwrite.rd = idexread.rn - idexread.rm;
@@ -774,6 +820,7 @@ void add_function(int index, char a[], char b[], char c[], char d[]){
     else if(index == 4){
 
 		write_value(memwbread.rd, b);
+		printf("%s==========%lf==========\n",b,memwbread.rd);
 	}
 }
 void immediate_add_function(int index, char a[], char b[], char c[], char d[]){
@@ -781,7 +828,7 @@ void immediate_add_function(int index, char a[], char b[], char c[], char d[]){
 	int z[32];	
     if(index == 0)
     {
-    	ifidwrite.pc = pc_read;
+    	ifidwrite.pc = pc_value;
         strncpy(ifidwrite.Rn,c,10);
         strncpy(ifidwrite.Rm," ",10);
         strncpy(ifidwrite.Rd,b,10);
@@ -807,13 +854,15 @@ void immediate_add_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.MW = 0;
 
         //alu
+        if(row > pc_value/4)
+    		pc_value += 4;
     	if(strcmp(a, "addi") == 0)
          	exmemwrite.rd = idexread.rn + atoi(d);        //findimm gives no in integer
         else if(strcmp(a, "ori") == 0)
         {
-//        	printf("%d-------------------<\n", atoi(d));
+        	//printf("%d-------------------<\n", atoi(d));
          	exmemwrite.rd = (int) idexread.rn | atoi(d);	
-//         	printf("%lf-------------------<-%lf\n", exmemwrite.rd, idexread.rn);
+         //	printf("%lf-------------------<-%lf\n", exmemwrite.rd, idexread.rn);
         }
         else if(strcmp(a,"slti") == 0)
         {
@@ -887,11 +936,11 @@ void immediate_add_function(int index, char a[], char b[], char c[], char d[]){
 }
 void load_function(int index, char a[], char b[], char c[], char d[]){
     if(index == 0){
-    	ifidwrite.pc = pc_read;
+    	ifidwrite.pc = pc_value;
         strncpy(ifidwrite.Rn,c,10);
         strncpy(ifidwrite.Rm," ",10);
         strncpy(ifidwrite.Rd,b,10);
-
+        
     }
     if(index == 1){
     	idexwrite.pc = ifidread.pc;
@@ -911,11 +960,13 @@ void load_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.MW = 0;
 
         exmemwrite.rn = idexread.rn;
-  //      printf("################# %lf",idexread.rn);
+        //printf("################# %lf",idexread.rn);
     }
     else if(index == 3){
     	int i;
     	int array[32];
+    	if(row > pc_value/4)
+    		pc_value += 4;
         if(bt == 0){
 			pc_write = exmemread.pc + 4;
 		}    	
@@ -933,17 +984,21 @@ void load_function(int index, char a[], char b[], char c[], char d[]){
             for(i = 0;i < 32 ;i++)
             {
                 array[i] = data_memory[(int)m + (i/8)][i%8];
- //               printf("%d", array[i]);
+                //printf("%d", array[i]);
             }
-   //         printf("======================================\n");
+            //perform_access((unsigned) m, 0);
+            fprintf(TRACE, "0 %d\n",(int)(m + address_start) );
+            //printf("======================================\n");
         	memwbwrite.rd = binary_to_int(array);
-     //   	printf("======================================%lf\n",memwbwrite.rd);
-       // 	printf("################ %lf\n", memwbwrite.rd);			//make an ofset funtion and find_from_mem funtion
+        	//printf("======================================%lf\n",memwbwrite.rd);
+        	//printf("################ %lf\n", memwbwrite.rd);			//make an ofset funtion and find_from_mem funtion
         }
     	else if(strcmp(a, "lb") == 0)
     	{
         	double m = memwbwrite.rn + atof(d) - address_start;
         	memwbwrite.rd = binary_to_int2(data_memory[(int)m]);
+        	//perform_access((unsigned) m, 0);
+        	fprintf(TRACE, "0 %d\n",(int)(m + address_start) );
         }
         //if(fwdC == 1){
         //	pthread_mutex_lock(&mutex);
@@ -959,11 +1014,11 @@ void immediate_load_function(int index, char a[], char b[], char c[], char d[]){
     int y[32];
     int z[32];
     if(index == 0){
-    	ifidwrite.pc = pc_read;
+    	ifidwrite.pc = pc_value;
         strncpy(ifidwrite.Rn, " ",10);
         strncpy(ifidwrite.Rm," ",10);
         strncpy(ifidwrite.Rd,b,10);
-
+        
     }
     if(index == 1){
     	idexwrite.pc = ifidread.pc;
@@ -981,22 +1036,24 @@ void immediate_load_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.MW = 0;
 
         int l = atoi(c);
-//        printf("-----------------------%d-----------------\n", l);
-  //      printf("Yes\n");
+        //printf("-----------------------%d-----------------\n", l);
+        //printf("Yes\n");
         for(i = 0;i <= 31; i++)
         {
         	y[i] = l%2;
        		l = l/2;
        	}
-    //   	printf("Yes\n");
+       	//printf("Yes\n");
         for(i = 0;i < 16; i++)
        		z[i] = 0;
        	for(i = 16;i <= 31; i++)
        		z[i] = y[ i - 16]; 
-      // 	printf("aa rha hai\n");
+       	//printf("aa rha hai\n");
        	exmemwrite.rd = binary_to_int(z);
+       	if(row > pc_value/4)
+    		pc_value += 4;
        	//printf("-----------------------%lf-----------------\n", binary_to_int(z));
-       //	printf("Yes\n");
+       	//printf("Yes\n");
        	/*if(fwdA == 1){
     		pthread_mutex_lock(&mutex);
     		idexwrite.rn = exmemwrite.rd;
@@ -1033,12 +1090,13 @@ void immediate_load_function(int index, char a[], char b[], char c[], char d[]){
 }
 void store_function(int index, char a[], char b[], char c[], char d[]){
     if(index == 0){
-    	ifidwrite.pc = pc_read;
-   // 	printf("yahan par hai\n");
+    	ifidwrite.pc = pc_value;
+    	//printf("yahan par hai\n");
         strncpy(ifidwrite.Rn,c,10);
         strncpy(ifidwrite.Rm," ",10);
         strncpy(ifidwrite.Rd,b,10);
-     //   printf("yahan khtam\n");
+        //printf("yahan khtam\n");
+        
     }
     if(index == 1){
     	idexwrite.pc = ifidread.pc;
@@ -1056,7 +1114,7 @@ void store_function(int index, char a[], char b[], char c[], char d[]){
        	//printf("kaunsa galata hai\n");
 		idexwrite.rd = take_value(b);
 
-	//	printf("=========================%lf  %lf =======================\n", idexwrite.rn,idexwrite.rd);
+		//printf("=========================%lf  %lf =======================\n", idexwrite.rn,idexwrite.rd);
 		//pthread_mutex_unlock(&mutex);
 		//printf("nhi phasa\n");
     }
@@ -1069,11 +1127,13 @@ void store_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.rn = idexread.rn;
         
 
-       // if(fwdC == 0){
+        if(fwdC == 0){
         	exmemwrite.rd = idexread.rd;	
-        //}
- //       printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rd = %lf\n",idexread.rd);
-   //     printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rn = %lf\n",idexread.rn);
+        }
+        if(row > pc_value/4)
+    		pc_value += 4;
+        //printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rd = %lf\n",idexread.rd);
+        //printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rn = %lf\n",idexread.rn);
 
     }
     else if(index == 3){
@@ -1092,9 +1152,9 @@ void store_function(int index, char a[], char b[], char c[], char d[]){
         	int j;
     		double k = exmemread.rd;
         	double m = exmemread.rn + atof(d);
-       // 	printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rd = %lf\n",exmemread.rd);
-        //	printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rn = %lf\n",exmemread.rn);
-        //	printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rn = %lf\n",atof(d));
+        	printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rd = %lf\n",exmemread.rd);
+        	printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rn = %lf\n",exmemread.rn);
+        	printf("$$$$$$$$$$$$$$$$$$$$$$$$ Rn = %lf\n",atof(d));
         	for(j = 0;j < 32;j++)
         	{
         		double no = m - address_start;
@@ -1102,6 +1162,8 @@ void store_function(int index, char a[], char b[], char c[], char d[]){
         //		printf("%d", (int)fmod(k,2));
         		k = k/2;  
         	}
+        	//perform_access((unsigned) m, 1);
+        	fprintf(TRACE, "1 %d\n",(int)m );
         //	printf("\n");
         //	printf("%lf\n", k);
         }
@@ -1116,6 +1178,8 @@ void store_function(int index, char a[], char b[], char c[], char d[]){
         		data_memory[(int)m][j] = (int)fmod(k,2);                      //change code
         		k = k/2;  
         	}
+        	//perform_access((unsigned) m, 1);
+        	fprintf(TRACE, "1 %d\n",(int)m );
         //	printf("333333*********************************%lf\n", m);			//make an offset funtion and write_to_mem funtion
         }
     }
@@ -1127,10 +1191,11 @@ void store_function(int index, char a[], char b[], char c[], char d[]){
 
 void mult_function(int index, char a[], char b[], char c[], char d[]){
 	if(index == 0){
-		ifidwrite.pc = pc_read;
+		ifidwrite.pc = pc_value;
         strncpy(ifidwrite.Rn,b,10);
         strncpy(ifidwrite.Rm,c,10);
         strncpy(ifidwrite.Rd," ",10);
+		
 	}
 	else if(index == 1){
 		idexwrite.pc = ifidread.pc;
@@ -1148,6 +1213,8 @@ void mult_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.RW = 1;
         exmemwrite.MW = 0;
         exmemwrite.hilo = idexread.rn*idexread.rm;
+        if(row > pc_value/4)
+    		pc_value += 4;
      //   printf("||||||||||||||||||||  rn  ||||%lf||||||||||||||||||||\n", idexread.rn);
       //  printf("|||||||||||||||||||||  rm    |||%lf||||||||||||||||||||\n", idexread.rm);
        // printf("|||||||||||||||||||||   rn*rm   |||%lf||||||||||||||||||||\n", exmemwrite.rd);
@@ -1175,10 +1242,11 @@ void branch_equal_function(int index, char a[], char b[], char c[], char d[]){
 	int z[32];
 	int i;
     if(index == 0){
-    	ifidwrite.pc = pc_read;
+    	ifidwrite.pc = pc_value;
         strncpy(ifidwrite.Rn,b,10);
         strncpy(ifidwrite.Rm,c,10);
         strncpy(ifidwrite.Rd," ",10);
+
     }
     if(index == 1){
     	idexwrite.pc = ifidread.pc;
@@ -1197,11 +1265,16 @@ void branch_equal_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.RW = 0;
         exmemwrite.MW = 0;
         //alu
+        if(row > pc_value/4)
+    		pc_value += 4;
+        printf("%lf===========%lf\n",idexread.rn,idexread.rm );
         if(idexread.rn == idexread.rm || strcmp(b,c) == 0){
          	exmemwrite.rd = 0;
          	bt = 4;
          	no_branch++;
          	offset = atoi(d);
+         	pc_value = exmemwrite.pc + offset*4;
+         	printf("aaya");
         }
     }
     else if(index == 3){
@@ -1224,10 +1297,11 @@ void branch_function(int index, char a[], char b[], char c[], char d[]){
 	int z[32];
 	int i;
     if(index == 0){
-    	ifidwrite.pc = pc_read;
+    	ifidwrite.pc = pc_value;
         strncpy(ifidwrite.Rn,b,10);
         strncpy(ifidwrite.Rm," ",10);
         strncpy(ifidwrite.Rd," ",10);
+        
     }
     if(index == 1){
     	idexwrite.pc = ifidread.pc;
@@ -1245,12 +1319,15 @@ void branch_function(int index, char a[], char b[], char c[], char d[]){
         exmemwrite.RW = 0;
         exmemwrite.MW = 0;
         //alu
+        if(row > pc_value/4)
+    		pc_value += 4;
         if(strcmp(a, "bgez") == 0){
          	if(idexread.rn >= 0.0){
          		exmemwrite.rd = 0;
          		bt = 4;
          		no_branch++;
          		offset = atoi(c);
+         		pc_value = exmemwrite.pc + offset*4;
          	}
         }        	
         else if(strcmp(a, "bgtz") == 0){
@@ -1259,6 +1336,7 @@ void branch_function(int index, char a[], char b[], char c[], char d[]){
          		bt = 4;
          		no_branch++;
          		offset = atoi(c);
+         		pc_value = exmemwrite.pc + offset*4;
          	}
         }
         else if(strcmp(a, "blez") == 0){
@@ -1267,6 +1345,7 @@ void branch_function(int index, char a[], char b[], char c[], char d[]){
          		bt = 4;
          		no_branch++;
          		offset = atoi(c);
+         		pc_value = exmemwrite.pc + offset*4;
          	} 
         }
         else if(strcmp(a, "bltz") == 0){
@@ -1275,6 +1354,7 @@ void branch_function(int index, char a[], char b[], char c[], char d[]){
          		bt = 4;
          		no_branch++;
          		offset = atoi(c);
+         		pc_value = exmemwrite.pc + offset*4;
          	}
         }
 
@@ -1300,50 +1380,329 @@ void jump_function(int index, char a[], char b[], char c[], char d[]){
     int z[32];
     int i;
     if(index == 0){
-        ifidwrite.pc = pc_read;
+        ifidwrite.pc = pc_value;
+        printf("%d==============\n", pc_value);
         strncpy(ifidwrite.Rn," ",10);
         strncpy(ifidwrite.Rm," ",10);
         strncpy(ifidwrite.Rd," ",10);
+        
+    }
+    if(index == 1){
+        idexwrite.pc = ifidread.pc;
+        //strncpy(idexwrite.Rn,ifidread.Rn,10);
+        //printf(" ****** Here (%s)\n", ifidread.Rm);
+        //strncpy(idexwrite.Rm,ifidread.Rm,10);
+        //strncpy(idexwrite.Rd,ifidread.Rd,10);
+        idexwrite.MR = 0;
+        if(strcmp(a, "j") == 0){
+            idexwrite.RW = 0;
+        }           
+        else if(strcmp(a, "jal") == 0){
+            idexwrite.RW = 1;
+        }
+        //printf("%d===========%d\n",atoi(b), atoi(b) - 4194304 );
+    }
+    else if(index == 2){
+        exmemwrite.pc = idexread.pc;
+        //strncpy(exmemwrite.Rd, idexread.Rd, 10);
+        jt = 2;
+        bt = 4;
+        offset = (atoi(b)*4- 4194304)/4; 
+        pc_value = offset*4;
+        if(strcmp(a, "j") == 0){
+            idexwrite.RW = 0;
+        }           
+        else if(strcmp(a, "jal") == 0){
+            idexwrite.RW = 1;
+        }
+
+    }
+    else if(index == 3){
+        memwbwrite.pc = exmemread.pc;
+        if(strcmp(a, "j") == 0){
+            idexwrite.RW = 0;
+        }           
+        else if(strcmp(a, "jal") == 0){
+            idexwrite.RW = 1;
+        }
+    }
+    else if(index == 4){
+    	if(strcmp(a, "jal") == 0)
+        	setr31(memwbread.pc);
+    }
+}
+
+void jalr_function(int index, char a[], char b[], char c[], char d[]){
+    int y[32];
+    int z[32];
+    int i;
+    if(index == 0){
+        ifidwrite.pc = pc_value;
+        strncpy(ifidwrite.Rn,c,10);
+        strncpy(ifidwrite.Rm," ",10);
+        strncpy(ifidwrite.Rd,b,10);
+        
     }
     if(index == 1){
         idexwrite.pc = ifidread.pc;
         strncpy(idexwrite.Rn,ifidread.Rn,10);
         //printf(" ****** Here (%s)\n", ifidread.Rm);
-        strncpy(idexwrite.Rm,ifidread.Rm,10);
+        //strncpy(idexwrite.Rm,ifidread.Rm,10);
         strncpy(idexwrite.Rd,ifidread.Rd,10);
-        idexwrite.RW = 0;
+        idexwrite.RW = 1;
         idexwrite.MR = 0;
-        jt = 4;
-        offset = atoi(c) 
+        //if(fwdA == 0 ){
+            //idexwrite.rn = take_value(c);
+            //printf(" ******** rn = %lf \n",idexwrite.rn);
+        //} 
+        //if(fwdB == 0){
+            idexwrite.rd = take_value(b);
+            //printf(" ******** rm = %lf \n",idexwrite.rm);
+        //}
     }
     else if(index == 2){
-        exmemwrite.pc = offset*4;
-        strncpy(exmemwrite.Rd, idexread.Rd, 10);
-        exmemwrite.RW = 0;
+        exmemwrite.pc = idexread.pc;
+        //strncpy(exmemwrite.Rn, idexread.Rn, 10);
+        exmemwrite.RW = 1;
         exmemwrite.MW = 0;
         //alu
-        if(strcmp(a, "j") == 0){
-
-        }           
-        else if(strcmp(a, "jal") == 0){
-
-        }
+        jt = 2;
+        bt = 4;
+        offset = (idexread.rd - 4194304)/4;
+        pc_value = offset*4;
 
     }
     else if(index == 3){
-        if(jt == 0){
-            pc_write = exmemread.pc + 4;
-        }       
-        else{
-            pc_write = exmemread.pc + (4 * offset);
+        
+        memwbwrite.pc = exmemread.pc;
+        //strncpy(memwbwrite.Rn, exmemread.Rn, 10);
+        memwbwrite.RW = 1;
+        //memwbwrite.rd = exmemread.rd;
+
+        /*if(fwdA == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rn = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
         }
-        strncpy(memwbwrite.Rd, exmemread.Rd, 10);
-        memwbwrite.RW = 0;
-        memwbwrite.rd = 0;
+        if(fwdB == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rm = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
+        }
+        if(fwdC == 1){
+            pthread_mutex_lock(&mutex);
+            exmemwrite.rd = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);   
+        }*/
     }
     else if(index == 4){
-        int z = 2;
+
+        write_value(memwbread.pc, c);
     }
+}
+
+void jr_function(int index, char a[], char b[], char c[], char d[]){
+    int y[32];
+    int z[32];
+    int i;
+    if(index == 0){
+        ifidwrite.pc = pc_value;
+        strncpy(ifidwrite.Rn," ",10);
+        strncpy(ifidwrite.Rm," ",10);
+        strncpy(ifidwrite.Rd,b,10);
+        
+    }
+    if(index == 1){
+        idexwrite.pc = ifidread.pc;
+        //strncpy(idexwrite.Rn,ifidread.Rn,10);
+        //printf(" ****** Here (%s)\n", ifidread.Rm);
+        //strncpy(idexwrite.Rm,ifidread.Rm,10);
+        strncpy(idexwrite.Rd,ifidread.Rd,10);
+        idexwrite.RW = 0;
+        idexwrite.MR = 0;
+        //if(fwdA == 0 ){
+            //idexwrite.rn = take_value(c);
+            //printf(" ******** rn = %lf \n",idexwrite.rn);
+        //} 
+        //if(fwdB == 0){
+            idexwrite.rd = take_value(b);
+            //printf(" ******** rm = %lf \n",idexwrite.rm);
+        //}
+    }
+    else if(index == 2){
+        exmemwrite.pc = idexread.pc;
+        //strncpy(exmemwrite.Rn, idexread.Rn, 10);
+        exmemwrite.RW = 1;
+        exmemwrite.MW = 0;
+        //alu
+        jt = 2;
+        bt = 4;
+        offset = (idexread.rd - 4194304)/4;
+        pc_value = offset*4;
+    }
+    else if(index == 3){
+        
+        //memwbwrite.pc = exmemread.pc;
+        //strncpy(memwbwrite.Rn, exmemread.Rn, 10);
+        memwbwrite.RW = 0;
+        //memwbwrite.rd = exmemread.rd;
+
+        /*if(fwdA == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rn = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
+        }
+        if(fwdB == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rm = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
+        }
+        if(fwdC == 1){
+            pthread_mutex_lock(&mutex);
+            exmemwrite.rd = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);   
+        }*/
+    }
+    else if(index == 4){
+
+        int z = 1;
+    }
+}
+
+void mflo_function(int index, char a[], char b[], char c[], char d[]){
+    int y[32];
+    int z[32];
+    int i;
+    if(index == 0){
+        ifidwrite.pc = pc_value;
+        strncpy(ifidwrite.Rn," ",10);
+        strncpy(ifidwrite.Rm," ",10);
+        strncpy(ifidwrite.Rd,b,10);
+        
+    }
+    if(index == 1){
+        idexwrite.pc = ifidread.pc;
+        //strncpy(idexwrite.Rn,ifidread.Rn,10);
+        //printf(" ****** Here (%s)\n", ifidread.Rm);
+        //strncpy(idexwrite.Rm,ifidread.Rm,10);
+        strncpy(idexwrite.Rd,ifidread.Rd,10);
+        idexwrite.RW = 1;
+        idexwrite.MR = 0;
+        //if(fwdA == 0 ){
+            //idexwrite.rn = take_value(c);
+            //printf(" ******** rn = %lf \n",idexwrite.rn);
+        //} 
+        //if(fwdB == 0){
+            //idexwrite.rd = take_value(b);
+            //printf(" ******** rm = %lf \n",idexwrite.rm);
+        //}
+    }
+    else if(index == 2){
+        exmemwrite.pc = idexread.pc;
+        strncpy(exmemwrite.Rd, idexread.Rd, 10);
+        exmemwrite.RW = 1;
+        exmemwrite.MW = 0;
+        if(row > pc_value/4)
+    		pc_value += 4;
+        //alu
+    }
+    else if(index == 3){
+        
+        memwbwrite.pc = exmemread.pc;
+        strncpy(memwbwrite.Rd, exmemread.Rd, 10);
+        memwbwrite.RW = 1;
+        //memwbwrite.rd = exmemread.rd;
+
+        /*if(fwdA == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rn = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
+        }
+        if(fwdB == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rm = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
+        }
+        if(fwdC == 1){
+            pthread_mutex_lock(&mutex);
+            exmemwrite.rd = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);   
+        }*/
+    }
+    else if(index == 4){
+        movlo(b);
+    }
+}
+
+  void move_function(int index, char a[], char b[], char c[], char d[]){
+    int y[32];
+    int z[32];
+    int i;
+    if(index == 0){
+        ifidwrite.pc = pc_value;
+        strncpy(ifidwrite.Rn,c,10);
+        strncpy(ifidwrite.Rm," ",10);
+        strncpy(ifidwrite.Rd,b,10);
+        printf("aaya1%s----%s\n",b, c);
+    }
+    if(index == 1){
+        idexwrite.pc = ifidread.pc;
+        //strncpy(idexwrite.Rn,ifidread.Rn,10);
+        //printf(" ****** Here (%s)\n", ifidread.Rm);
+        strncpy(idexwrite.Rm,ifidread.Rm,10);
+        strncpy(idexwrite.Rd,ifidread.Rd,10);
+        idexwrite.rn = take_value(c); 
+        idexwrite.RW = 1;
+        idexwrite.MR = 0;
+        printf("aaya2%s----%lf\n",b, idexwrite.rn);
+        //if(fwdA == 0 ){
+            //idexwrite.rn = take_value(c);
+            //printf(" ******** rn = %lf \n",idexwrite.rn);
+        //} 
+        //if(fwdB == 0){
+            //idexwrite.rd = take_value(b);
+            //printf(" ******** rm = %lf \n",idexwrite.rm);
+        //}
+    }
+    else if(index == 2){
+        exmemwrite.pc = idexread.pc;
+        strncpy(exmemwrite.Rd, idexread.Rd, 10);
+        exmemwrite.RW = 1;
+        exmemwrite.MW = 0;
+        exmemwrite.rn = idexread.rn;
+        printf("aaya3%s----%lf\n",b, idexread.rn);
+        if(row > pc_value/4)
+    		pc_value += 4;
+        //alu
+    }
+    else if(index == 3){
+        
+        memwbwrite.pc = exmemread.pc;
+        strncpy(memwbwrite.Rd, exmemread.Rd, 10);
+        memwbwrite.RW = 1;
+        memwbwrite.rn = exmemread.rn;
+        printf("aaya4%s----%lf\n",b, memwbwrite.rn);
+        /*if(fwdA == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rn = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
+        }
+        if(fwdB == 2){
+            pthread_mutex_lock(&mutex);
+            idexwrite.rm = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);
+        }
+        if(fwdC == 1){
+            pthread_mutex_lock(&mutex);
+            exmemwrite.rd = memwbwrite.rd;
+            pthread_mutex_unlock(&mutex);   
+        }*/
+    }
+    else if(index == 4){
+    	printf("aaya5%s----%s\n",b, c);
+        write_value(memwbread.rn, b);
+    }
+
 }
 
 void do_data_forwading(){
@@ -1418,6 +1777,23 @@ void* evaluate(void * args){
         jump_function(infor->index, infor->ins, infor->first, infor->second, infor->third);   
     }
 
+    else if(strcmp(infor->ins, "jalr") == 0){
+        jalr_function(infor->index, infor->ins, infor->first, infor->second, infor->third);   
+    }
+
+    else if(strcmp(infor->ins, "jr") == 0){
+        jr_function(infor->index, infor->ins, infor->first, infor->second, infor->third);   
+    }
+
+    else if(strcmp(infor->ins, "mflo") == 0){
+        mflo_function(infor->index, infor->ins, infor->first, infor->second, infor->third);   
+    }
+
+    else if(strcmp(infor->ins, "move") == 0){
+    	printf("pppppppppppppppppppppppppp\n");
+        move_function(infor->index, infor->ins, infor->first, infor->second, infor->third);   
+    }
+
     else if(strcmp(infor->ins, "beq") == 0)
     {
         branch_equal_function(infor->index, infor->ins, infor->first, infor->second, infor->third);   
@@ -1434,10 +1810,9 @@ void* set_thread_status (void* args){
     a[2] = infor2->thr[2] + '0';
     a[3] = infor2->thr[3] + '0';
     a[4] = infor2->thr[4] + '0';
-//    printf("%s=====================\n", a);
+    //printf("%s=====================\n", a);
     strncpy(to_print[0],a,100);
-  //  printf("%s=====================\n", to_print[0]);
-}
+    }
 
 
 int convert_to_decimal(char num[]){
@@ -1718,7 +2093,7 @@ void arithmetic_logic_4(int row_num, char code[]){
     part2[16] = '\0';
     char dollar2[255];
     char buffer2[20];
-    ans = convert_to_decimal(part2);
+    ans = convert_to_decimal1(part2);
     snprintf(buffer2,10,"%d", ans);
     strncpy(IM[row_num].third,buffer2,10);
 }
@@ -1763,7 +2138,7 @@ void memory_reference(int row_num, char code[]){
     }
     part2[16] = '\0';
     char buffer2[20];
-    ans = convert_to_decimal(part2);
+    ans = convert_to_decimal1(part2);
     snprintf(buffer2,10,"%d", ans);
     strncpy(IM[row_num].third,buffer2,10);
 }
@@ -1793,7 +2168,7 @@ void memory_reference_2(int row_num, char code[]){
     }
     part2[16] = '\0';
     char buffer2[20];
-    ans = convert_to_decimal(part2);
+    ans = convert_to_decimal1(part2);
     snprintf(buffer2,10,"%d", ans);
     strncpy(IM[row_num].second,buffer2,10);
     strncpy(IM[row_num].third," ",10);
@@ -1810,6 +2185,7 @@ void jump_condition(int row_num, char code[]){
     int ans = convert_to_decimal1(part);
     char buffer[20];
     snprintf(buffer,10,"%d", ans);
+    printf("%srrrrrrrrrrrrrrrr\n", buffer);
     strncpy(IM[row_num].first,buffer,10); 
 }
 
@@ -1867,6 +2243,59 @@ void jr_condition(int row_num, char code[]){
     strncpy(IM[row_num].first,dollar,10);
 }
 
+void mflo_condition(int row_num, char code[]){
+    char part[6];
+    int i = 25;
+    int j = 0;
+    for(i = 11; i <= 16; i++){
+        part[j] = array[row_num][i];
+        j++;
+    }
+    part[5] = '\0';
+    int ans = convert_to_decimal(part);
+    char buffer[20];
+    snprintf(buffer,10,"%d", ans);
+    char dollar[255] ;
+    strcpy(dollar, "$");
+    char* sec = buffer;
+    strcat(dollar, sec);
+    strncpy(IM[row_num].first,dollar,10);
+}
+void move_condition(int row_num, char code[]){
+    char part[6];
+    int i = 25;
+    int j = 0;
+    for(i = 11; i <= 16; i++){
+        part[j] = array[row_num][i];
+        j++;
+    }
+    part[5] = '\0';
+    int ans = convert_to_decimal(part);
+    char buffer[20];
+    snprintf(buffer,10,"%d", ans);
+    char dollar[255] ;
+    strcpy(dollar, "$");
+    char* sec = buffer;
+    strcat(dollar, sec);
+    strncpy(IM[row_num].first,dollar,10);
+
+    char part2[6];
+    j = 0;
+    for(i = 16; i <= 20; i++){
+        part2[j] = array[row_num][i];
+        j++;
+    }
+    part2[5] = '\0';
+    char dollar2[255];
+    char buffer2[20];
+    ans = convert_to_decimal(part2);
+    snprintf(buffer2,10,"%d", ans);
+    strcpy(dollar2, "$");
+    sec = buffer2;
+    strcat(dollar2, sec);
+    strncpy(IM[row_num].second,dollar2,10);
+}
+
 void branch_equal_condition(int row_num, char code[]){
     char part[6];
     int i = 25;
@@ -1876,7 +2305,7 @@ void branch_equal_condition(int row_num, char code[]){
         j++;
     }
     part[5] = '\0';
-    int ans = convert_to_decimal1(part);
+    int ans = convert_to_decimal(part);
     char buffer[20];
     snprintf(buffer,10,"%d", ans);
     char dollar[255] ;
@@ -1893,7 +2322,7 @@ void branch_equal_condition(int row_num, char code[]){
     part1[5] = '\0';
     char dollar1[255];
     char buffer1[20];
-    ans = convert_to_decimal1(part1);
+    ans = convert_to_decimal(part1);
     snprintf(buffer1,10,"%d", ans);
     strcpy(dollar1, "$");
     sec = buffer1;
@@ -1920,7 +2349,7 @@ void branch_condition(int row_num, char code[]){
         j++;
     }
     part[5] = '\0';
-    int ans = convert_to_decimal1(part);
+    int ans = convert_to_decimal(part);
     char buffer[20];
     snprintf(buffer,10,"%d", ans);
     char dollar[255] ;
@@ -2015,7 +2444,6 @@ void sb_code(int row_num, char code[]){
     strcpy(IM[row_num].ins,"sb");    
 }
 
-
 //branch related commands
 void jump_code(int row_num, char code[]){
 	jump_condition(row_num,code);
@@ -2032,6 +2460,14 @@ void jalr_code(int row_num, char code[]){
 void jr_code(int row_num, char code[]){
     jr_condition(row_num,code);
     strcpy(IM[row_num].ins,"jr");
+}
+void mflo_code(int row_num, char code[]){
+    mflo_condition(row_num,code);
+    strcpy(IM[row_num].ins,"mflo");
+}
+void move_code(int row_num, char code[]){
+    move_condition(row_num,code);
+    strcpy(IM[row_num].ins,"move");
 }
 void brancheq_code(int row_num, char code[]){
 	branch_equal_condition(row_num,code);
@@ -2166,6 +2602,22 @@ void add_to_IM(int row_num){
                 code[i] = array[row_num][i];
             }
             jalr_code(row_num, code);   
+        }
+        else if(ansb == 18)
+        {
+            char code[33];
+            for(i = 0; i < 32; i++){
+                code[i] = array[row_num][i];
+            }
+            mflo_code(row_num, code);   
+        }
+        else if(ansb == 33)
+        {
+            char code[33];
+            for(i = 0; i < 32; i++){
+                code[i] = array[row_num][i];
+            }
+            move_code(row_num, code);   
         }
 
     }
@@ -2324,47 +2776,47 @@ int check_data_forwading(){
     //path1
     if(exmemwrite.RW == 1 && strcmp(exmemwrite.Rd,idexwrite.Rn) == 0 && strcmp(exmemwrite.Rd , " ") != 0){
         fwdA = 1;
-//        printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
+        //printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
     }
     if(exmemwrite.RW == 1 && strcmp(exmemwrite.Rd,idexwrite.Rm) == 0 && strcmp(exmemwrite.Rd , " ") != 0){
         fwdB = 1;
-//        printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
+        //printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
     }
     //path2
     if(memwbwrite.RW == 1 && strcmp(exmemwrite.Rd,idexwrite.Rn) != 0 && strcmp(memwbwrite.Rd,idexwrite.Rn) == 0 && strcmp(idexwrite.Rn , " ") != 0){
         fwdA = 2;
-//        printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
+        //printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
     }
     if(memwbwrite.RW == 1 && strcmp(exmemwrite.Rd,idexwrite.Rm) != 0 && strcmp(memwbwrite.Rd,idexwrite.Rm) == 0 && strcmp(idexwrite.Rm , " ") != 0){
         fwdB = 2;
- //       printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
+       // printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
     }
     if(memwbwrite.RW == 1 && strcmp(memwbwrite.Rd,idexwrite.Rd) == 0 && strcmp(idexwrite.Rd , " ") != 0){
         fwdD = 1;
- //       printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d fwdD = %d\n", fwdA, fwdB, fwdC,fwdD);
+        //printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d fwdD = %d\n", fwdA, fwdB, fwdC,fwdD);
     }
     //path3
     if(memwbwrite.RW == 1 && memwbwrite.MR == 1 && strcmp(memwbwrite.Rd,exmemwrite.Rd) == 0 && strcmp(exmemwrite.Rd , " ") != 0){
         fwdC = 1;
-//        printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
+        //printf("DATA FORWADING fwdA = %d fwdB = %d fwdC = %d\n", fwdA, fwdB, fwdC);
     }
     //stalling with data forwading
     if(idexwrite.MR == 1 && strcmp(ifidwrite.Rn,idexwrite.Rd) == 0 && strcmp(idexwrite.Rd , " ") != 0){
-//        printf("STALLING WITH DATA FORWADING\n");
+        //printf("STALLING WITH DATA FORWADING\n");
         a = 1;
     }
     if(idexwrite.MR == 1 && strcmp(ifidwrite.Rm,idexwrite.Rd) == 0 && strcmp(idexwrite.Rd , " ") != 0){
-//        printf("STALLING WITH DATA FORWADING\n");
+        //printf("STALLING WITH DATA FORWADING\n");
         a = 1;
     }
     return a;
 }
 void transfer_registers(){
- //   printf(" IF/ID Rn = %s IF/ID Rm = %s IF/ID Rd = %s ID/EX Rn = %s ID/EX Rm = %s ID/EX Rd = %s EX/MEM Rd = %s MEM/WB Rd = %s ID/EX MR = %d EX/MEM RW = %d MEM/WB RW = %d, \n", ifidwrite.Rn, ifidwrite.Rm, ifidwrite.Rd, idexwrite.Rn, idexwrite.Rm, idexwrite.Rd, exmemwrite.Rd, memwbwrite.Rd, idexwrite.MR, exmemwrite.RW, memwbwrite.RW);
+    //printf(" IF/ID Rn = %s IF/ID Rm = %s IF/ID Rd = %s ID/EX Rn = %s ID/EX Rm = %s ID/EX Rd = %s EX/MEM Rd = %s MEM/WB Rd = %s ID/EX MR = %d EX/MEM RW = %d MEM/WB RW = %d, \n", ifidwrite.Rn, ifidwrite.Rm, ifidwrite.Rd, idexwrite.Rn, idexwrite.Rm, idexwrite.Rd, exmemwrite.Rd, memwbwrite.Rd, idexwrite.MR, exmemwrite.RW, memwbwrite.RW);
     strncpy(ifidread.Rn, ifidwrite.Rn,10);
     strncpy(ifidread.Rm, ifidwrite.Rm,10);
     strncpy(ifidread.Rd, ifidwrite.Rd,10);
- //   printf(" ******* (%s)\n", ifidread.Rm);
+    //printf(" ******* (%s)\n", ifidread.Rm);
     strncpy(idexread.Rn, idexwrite.Rn,10);
     strncpy(idexread.Rm, idexwrite.Rm,10);
     strncpy(idexread.Rd, idexwrite.Rd,10);
@@ -2378,20 +2830,21 @@ void transfer_registers(){
     ifidread.rn = ifidwrite.rn;
     ifidread.rm = ifidwrite.rm;
     ifidread.rd = ifidwrite.rd;
+    ifidread.pc = ifidwrite.pc;
     idexread.rn = idexwrite.rn;
     idexread.rm = idexwrite.rm;
     idexread.rd = idexwrite.rd;
+    idexread.pc = idexwrite.pc;
     exmemread.rd = exmemwrite.rd;
     exmemread.hilo = exmemwrite.hilo;
     exmemread.rn = exmemwrite.rn;
+    exmemread.pc = exmemwrite.pc;
     memwbread.rd = memwbwrite.rd;
     memwbread.hilo = memwbwrite.hilo;
     memwbread.rn = memwbwrite.rn;
+    memwbread.pc = memwbwrite.pc;
     memwbread.MR = memwbwrite.MR;
     pc_read = pc_write;
-    ifidread.pc = ifidwrite.pc;
-    idexread.pc = idexwrite.pc;
-    exmemread.pc = exmemwrite.pc;
 
     strncpy(ifidwrite.Rn, " ",10);
     strncpy(ifidwrite.Rm, " ",10);
@@ -2439,13 +2892,13 @@ void generate_output(){
 	fprintf(out,"Idle time (ns),%0.4f\n",idle_time);
 	float percent = (idle_time/time)*100.0;
 	fprintf(out,"Idle time (%%),%0.4f%%\n",percent);
-	fprintf(out,"Cache Summary\n");
-	fprintf(out,"Cache L1-I\n");
-	int ans1 = ins_access - (2*no_branch);
-	ins_access = ans1 - stalls;
-	fprintf(out,"num cache accesses,%d\n",ins_access);
-	fprintf(out,"Cache L1-D\n");
-	fprintf(out,"num cache accesses,%d\n",data_access);
+	//fprintf(out,"Cache Summary\n");
+	//fprintf(out,"Cache L1-I\n");
+	//int ans1 = ins_access - (2*no_branch);
+	//ins_access = ans1 - stalls;
+	//fprintf(out,"num cache accesses,%d\n",ins_access);
+	//fprintf(out,"Cache L1-D\n");
+	//fprintf(out,"num cache accesses,%d\n",data_access);
 }
 
 void print_memory_file(int start, int offset_value){
@@ -2530,7 +2983,11 @@ int main_program(){
         //print_register_file();
         //printf("\n\n");
         //print_memory_file();
+        fclose(TRACE);
         generate_output();
+        FILE * Trace = fopen("spice.trace","r");
+        play_trace(Trace);
+        print_stats(&out);
         exit(0);
     }
     if(bt == 2 && ins_number[0] > row ){
@@ -2539,7 +2996,11 @@ int main_program(){
         //print_register_file();
         //printf("\n\n");
         //print_memory_file();
+        fclose(TRACE);
         generate_output();
+        FILE * Trace = fopen("spice.trace","r");
+        play_trace(Trace);
+        print_stats(&out);
         exit(0);
     }
     thread_info my_struct[5];
@@ -2565,9 +3026,17 @@ int main_program(){
     }
     pthread_create(&threads[5],NULL,set_thread_status,&thread_status);
     for(i = 0;i<5;i++){
+        
         if( ins_number[i] < row && ins_number[i] >= 0){    
             pthread_join(threads[i],NULL);
         }
+
+    }
+    if(ins_number[0] < row && ins_number[0] >= 0){
+    	int num = ins_number[0]*4 + pc_start;
+    	printf("%d\n",ins_number[0]*4 + pc_start);
+    	//perform_access(num,2);
+    	fprintf(TRACE, "2 %d\n",(int)num );
     }
     pthread_join(threads[5],NULL);
     pfwdA = fwdA;
@@ -2653,13 +3122,29 @@ int main_program(){
 
 }
 
+bool check_break(int a){
+	int i;
+	for(i = 0;i < no_breakpoint; i++){
+		//printf("pc_value = %d -------  break_point = %d\n",a, break_point[i]);
+		if(a == break_point[i])
+			return true;
+	}
+	return false;
+}
+
 void execute_program(){
+	TRACE = fopen("spice.trace","w");
+	printf("%d\n", row);
     draw_svg();
     int check = 0;
     int flag = 0;
     printf("Enter step to go to next time step...\n");
     printf("Enter regdump or memorydump to see register file dump or memory dump...\n");
-    printf("%s\n", );
+    printf("Enter run to run upto finish of the program\n");
+    printf("Enter continue to run up to the next break point\n");
+    printf("Enter break to add a break point\n");
+    printf("Enter delete to delete a break point\n");
+
     int count = -1;
     int i = 0;
     int stall = 0;
@@ -2667,12 +3152,12 @@ void execute_program(){
         ins_number[i] = -1-i;
     }
     while(1){
+    	//perform_access((pc_value + pc_start), 2);
         char a[100];
         int temp;
         scanf("%s",a);
- //       printf("^^^^^^^^^^^^ %s\n",a);
         if(strcmp(a,"regdump") == 0){
-	        		print_register_file();
+	        print_register_file();
 	    }
     	else if(strcmp(a, "memdump") == 0){
     		char start[11];
@@ -2711,9 +3196,43 @@ void execute_program(){
     		ans = ans - address_start;
     		print_memory_file(ans, offset_value);
     	}
-        else if(strcmp(a,"run") == 0){
-        	while(1){
-	        	count++;
+
+    	else if(strcmp(a, "break") == 0){
+    		char addr[33];
+    		scanf("%s", addr);
+    		int x;
+    		sscanf(addr, "%x", &x); 
+    		int b = (x - pc_start);
+    		break_point[no_breakpoint] = b;
+			no_breakpoint++;
+    		for(i = 0;i < no_breakpoint; i++){
+				printf("%d =========   %d\n",i,break_point[i]);
+    		} 
+    	}
+    	else if(strcmp(a, "delete") == 0){
+    		char addr[33];
+    		scanf("%s", addr);
+    		int x,i;
+    		sscanf(addr, "%x", &x); 
+    		int b = (x - pc_start);
+    		for(i = 0;i < no_breakpoint; i++){
+    			if(break_point[i] = b)
+    			{
+    				break_point[i] = break_point[no_breakpoint-1];
+    				no_breakpoint--;
+    				i--;
+    			}
+    		}
+    		for(i = 0;i < no_breakpoint; i++){
+    			printf("%d =========   %d\n",i,break_point[i]);
+    		}
+    	}
+    	else if(strcmp(a, "continue") == 0){
+        	do{
+        		pc_value2 = pc_value;
+        		//perform_access((pc_value + pc_start), 2);
+	        	printf("start========%d\n", pc_value);
+	        count++;
 	        	stall++;
 	        	if(count <= 5){
 	            	flag = 1;
@@ -2721,22 +3240,43 @@ void execute_program(){
 	        	count = count % 5;
 	        	stall = stall % 5;
 	        	//branch not taken
+	        	if(jt == 1){
+	        		//pc_value = offset*4;
+	        		printf("%d,%d,%d,%d,%d\n", offset, -10, ins_number[1], ins_number[3] + 1,ins_number[4] + 1);
+	        		ins_number[0] = offset;
+	        		ins_number[4] = ins_number[3];
+	        		ins_number[3] = ins_number[2];
+	        		ins_number[2] = ins_number[1];
+	        		ins_number[1] = -10;
+	        		
+	        		jt = 0;
+	        		bt = 3;
+	        	}
+	        	else{
 		        if(bt == 0 && az == 0){
-		        	for(i = 0;i<5;i++){
-		            	ins_number[i] = ins_number[i] + 1;
-		        	}
+    		        	for(i = 0;i<5;i++)
+    		            	ins_number[i] = ins_number[i] + 1;
+    		            //if(row > pc_value/4)
+    		            //	pc_value += 4;//printf("aaaaaaa2%d\n", pc_value);
 		    	}
 		    	//branch taken
 		    	else if (bt != 0){
                     az = 1;
 		    		if(bt == 4){
 		    			//printf("################### %d\n", offset);
-		    			ins_number[0] = ins_number[2] + offset + 1;
+		    			if(jt == 2){
+		    				ins_number[0] = offset;
+		    				jt = 0;
+		    			}
+		    			else	
+		    				ins_number[0] = ins_number[2] + offset + 1;
+		    			ins_number[4] = ins_number[3];
+		    			ins_number[3] = ins_number[2];
 		    			ins_number[1] = -10;
 		    			ins_number[2] = -10;
-		    			ins_number[3] = -10;
-		    			ins_number[4] = ins_number[4] + 1;
                         cycles--;
+                        //if(row > pc_value/4)
+                        //pc_value += 4*(offset+1);//printf("aaaaaaa3\n");
 		    		}
 		    		else{
 		    			int temp0 = ins_number[0];
@@ -2749,6 +3289,8 @@ void execute_program(){
 		    			ins_number[2] = temp1;
 		    			ins_number[3] = temp2;
 		    			ins_number[4] = temp3;
+		    			//if(row > pc_value/4)
+		    			//pc_value += 4;//printf("aaaaaaa4\n");
 		    		}
 		    		bt--;
 		    	}
@@ -2765,7 +3307,10 @@ void execute_program(){
                         ins_number[3] = temp2;
                         ins_number[4] = temp3;
                         az = 0;
+                        //if(row > pc_value/4)
+                        //pc_value += 4;//printf("aaaaaaa5\n");
                 }
+            	}
 		        if(flag == 1 && check == 1){
 		            if(stall == 0){
 		                temp = ins_number[4] - 1;
@@ -2777,6 +3322,9 @@ void execute_program(){
 		            }
 		        }       
 		        cycles++;
+		        if(ins_number[2] < 0)
+		        	pc_value += 4;
+
 		        int b = main_program();
 		        for(i = 0;i<5;i++){
 		        	if(ins_number[i] >= 0 && ins_number[i] < row){
@@ -2800,78 +3348,115 @@ void execute_program(){
 		        if(b == 1){
 		        	stall = 1;
 		            stalls = stalls + 1;
-		                ins_number[0] = ins_number[0] - 1;
+		            ins_number[0] = ins_number[0] - 1;
+		            pc_value -= 4; 
 		            ins_number[stall] = -10;
 		            check = 1;
 		        }
-		    }	
+		    }while(!check_break(pc_value2));	
         }
-        else if (strcmp(a,"step") == 0){
-	        count++;
-	        stall++;
-	        if(count <= 5){
-	            flag = 1;
-	        }
-	        count = count % 5;
-	        stall = stall % 5;
-	        //branch not taken
-	        if(bt == 0 && az == 0){
-	        	for(i = 0;i<5;i++){
-	            	ins_number[i] = ins_number[i] + 1;
+
+        else if(strcmp(a,"run") == 0){
+        	
+        	while(1){
+        		
+        		pc_value2 = pc_value;
+	        	printf("start========%d\n", pc_value);
+	        	count++;
+	        	stall++;
+	        	if(count <= 5){
+	            	flag = 1;
 	        	}
-	    	}
-	    	//branch taken
-	    	else if (bt != 0){
-	    		az = 1;
-	    		if(bt == 4){
-	    			//printf("################### %d\n", offset);
-	    			ins_number[0] = ins_number[2] + offset + 1;
-	    			ins_number[1] = -10;
-	    			ins_number[2] = -10;
-	    			ins_number[3] = -10;
-	    			ins_number[4] = ins_number[4] + 1;
-                    cycles--;
-	    		}
-	    		else{
-	    			int temp0 = ins_number[0];
-	    			int temp1 = ins_number[1];
-	    			int temp2 = ins_number[2];
-	    			int temp3 = ins_number[3];
-	    			int temp4 = ins_number[4];
-					ins_number[0] = temp0 + 1;
-	    			ins_number[1] = temp0;
-	    			ins_number[2] = temp1;
-	    			ins_number[3] = temp2;
-	    			ins_number[4] = temp3;
-	    		}
-	    		bt--;
-	    	}
-	    	else if(bt == 0 && az == 1){
-	    			int temp0 = ins_number[0];
-	    			int temp1 = ins_number[1];
-	    			int temp2 = ins_number[2];
-	    			int temp3 = ins_number[3];
-	    			int temp4 = ins_number[4];
-					ins_number[0] = temp0 + 1;
-	    			ins_number[1] = temp0;
-	    			ins_number[2] = temp1;
-	    			ins_number[3] = temp2;
-	    			ins_number[4] = temp3;
-	    			az = 0;
-	    	}
-	        if(flag == 1 && check == 1){
-	            if(stall == 0){
-	                temp = ins_number[4] - 1;
-	                ins_number[4] = -10;
-	            }
-	            else{
-	                temp = ins_number[stall];
-	                ins_number[stall - 1] = -10;
-	            }
-	        }  
-	        cycles++;     
-	        int b = main_program();
-	        for(i = 0;i<5;i++){
+	        	count = count % 5;
+	        	stall = stall % 5;
+	        	//branch not taken
+	        	if(jt == 1){
+	        		//pc_value = offset*4;
+	        		printf("%d,%d,%d,%d,%d\n", offset, -10, ins_number[1], ins_number[3] + 1,ins_number[4] + 1);
+	        		ins_number[0] = offset;
+	        		ins_number[4] = ins_number[3];
+	        		ins_number[3] = ins_number[2];
+	        		ins_number[2] = ins_number[1];
+	        		ins_number[1] = -10;
+	        		
+	        		jt = 0;
+	        		bt = 3;
+	        	}
+	        	else{
+		        if(bt == 0 && az == 0){
+    		        	for(i = 0;i<5;i++)
+    		            	ins_number[i] = ins_number[i] + 1;
+    		            //if(row > pc_value/4)
+    		            //	pc_value += 4;//printf("aaaaaaa2%d\n", pc_value);
+		    	}
+		    	//branch taken
+		    	else if (bt != 0){
+                    az = 1;
+		    		if(bt == 4){
+		    			//printf("################### %d\n", offset);
+		    			if(jt == 2){
+		    				ins_number[0] = offset;
+		    				jt = 0;
+		    			}
+		    			else	
+		    				ins_number[0] = ins_number[2] + offset + 1;
+		    			ins_number[4] = ins_number[3];
+		    			ins_number[3] = ins_number[2];
+		    			ins_number[1] = -10;
+		    			ins_number[2] = -10;
+                        cycles--;
+                        //if(row > pc_value/4)
+                        //pc_value += 4*(offset+1);//printf("aaaaaaa3\n");
+		    		}
+		    		else{
+		    			int temp0 = ins_number[0];
+		    			int temp1 = ins_number[1];
+		    			int temp2 = ins_number[2];
+		    			int temp3 = ins_number[3];
+		    			int temp4 = ins_number[4];
+						ins_number[0] = temp0 + 1;
+		    			ins_number[1] = temp0;
+		    			ins_number[2] = temp1;
+		    			ins_number[3] = temp2;
+		    			ins_number[4] = temp3;
+		    			//if(row > pc_value/4)
+		    			//pc_value += 4;//printf("aaaaaaa4\n");
+		    		}
+		    		bt--;
+		    	}
+                else if(bt == 0 && az == 1)
+                {
+                        int temp0 = ins_number[0];
+                        int temp1 = ins_number[1];
+                        int temp2 = ins_number[2];
+                        int temp3 = ins_number[3];
+                        int temp4 = ins_number[4];
+                        ins_number[0] = temp0 + 1;
+                        ins_number[1] = temp0;
+                        ins_number[2] = temp1;
+                        ins_number[3] = temp2;
+                        ins_number[4] = temp3;
+                        az = 0;
+                        //if(row > pc_value/4)
+                        //pc_value += 4;//printf("aaaaaaa5\n");
+                }
+            	}
+		        if(flag == 1 && check == 1){
+		            if(stall == 0){
+		                temp = ins_number[4] - 1;
+		                ins_number[4] = -10;
+		            }
+		            else{
+		                temp = ins_number[stall];
+		                ins_number[stall - 1] = -10;
+		            }
+		        }       
+		        cycles++;
+		        if(ins_number[2] < 0)
+		        	pc_value += 4;
+
+		        int b = main_program();
+		        for(i = 0;i<5;i++){
 		        	if(ins_number[i] >= 0 && ins_number[i] < row){
 		        		int w = 2;
 		        	}
@@ -2880,26 +3465,154 @@ void execute_program(){
 		        		break;
 		        	}
 		        }
-	        if(flag == 1 && check == 1){
-	            if(stall == 0){
-	                ins_number[4] = temp;
-	                flag = 0;
-	                check = 0;
-	            }
-	            else{
-	                ins_number[stall - 1] = temp;
-	            }
-	        }
-	        if(b == 1){
-	        	stall = 1;
-	            stalls = stalls + 1;
-	                ins_number[0] = ins_number[0] - 1;
-	            ins_number[stall] = -10;
-	            check = 1;
-	        }
+		        if(flag == 1 && check == 1){
+		            if(stall == 0){
+		                ins_number[4] = temp;
+		                flag = 0;
+		                check = 0;
+		            }
+		            else{
+		                ins_number[stall - 1] = temp;
+		            }
+		        }
+		        if(b == 1){
+		        	stall = 1;
+		            stalls = stalls + 1;
+		            ins_number[0] = ins_number[0] - 1;
+		            pc_value -= 4; 
+		            ins_number[stall] = -10;
+		            check = 1;
+		        }
+		    }	
+        }
+        else if (strcmp(a,"step") == 0){
+        	pc_value2 = pc_value;
+	        	printf("start========%d\n", pc_value);
+	        count++;
+	        	stall++;
+	        	if(count <= 5){
+	            	flag = 1;
+	        	}
+	        	count = count % 5;
+	        	stall = stall % 5;
+	        	//branch not taken
+	        	if(jt == 1){
+	        		//pc_value = offset*4;
+	        		printf("%d,%d,%d,%d,%dmadar fackar\n", offset, -10, ins_number[1], ins_number[3] + 1,ins_number[4] + 1);
+	        		ins_number[0] = offset;
+	        		ins_number[4] = ins_number[3];
+	        		ins_number[3] = ins_number[2];
+	        		ins_number[2] = ins_number[1];
+	        		ins_number[1] = -10;
+	        		
+	        		jt = 0;
+	        		bt = 3;
+	        	}
+	        	else{
+		        if(bt == 0 && az == 0){
+    		        	for(i = 0;i<5;i++)
+    		            	ins_number[i] = ins_number[i] + 1;
+    		            //if(row > pc_value/4)
+    		            //	pc_value += 4;//printf("aaaaaaa2%d\n", pc_value);
+		    	}
+		    	//branch taken
+		    	else if (bt != 0){
+                    az = 1;
+		    		if(bt == 4){
+		    			//printf("################### %d\n", offset);
+		    			if(jt == 2){
+		    				ins_number[0] = offset;
+		    				jt = 0;
+		    			}
+		    			else	
+		    				ins_number[0] = ins_number[2] + offset + 1;
+		    			ins_number[4] = ins_number[3];
+		    			ins_number[3] = ins_number[2];
+		    			ins_number[1] = -10;
+		    			ins_number[2] = -10;
+                        cycles--;
+                        //if(row > pc_value/4)
+                        //pc_value += 4*(offset+1);//printf("aaaaaaa3\n");
+		    		}
+		    		else{
+		    			int temp0 = ins_number[0];
+		    			int temp1 = ins_number[1];
+		    			int temp2 = ins_number[2];
+		    			int temp3 = ins_number[3];
+		    			int temp4 = ins_number[4];
+						ins_number[0] = temp0 + 1;
+		    			ins_number[1] = temp0;
+		    			ins_number[2] = temp1;
+		    			ins_number[3] = temp2;
+		    			ins_number[4] = temp3;
+		    			//if(row > pc_value/4)
+		    			//pc_value += 4;//printf("aaaaaaa4\n");
+		    		}
+		    		bt--;
+		    	}
+                else if(bt == 0 && az == 1)
+                {
+                        int temp0 = ins_number[0];
+                        int temp1 = ins_number[1];
+                        int temp2 = ins_number[2];
+                        int temp3 = ins_number[3];
+                        int temp4 = ins_number[4];
+                        ins_number[0] = temp0 + 1;
+                        ins_number[1] = temp0;
+                        ins_number[2] = temp1;
+                        ins_number[3] = temp2;
+                        ins_number[4] = temp3;
+                        az = 0;
+                        //if(row > pc_value/4)
+                        //pc_value += 4;//printf("aaaaaaa5\n");
+                }
+            	}
+		        if(flag == 1 && check == 1){
+		            if(stall == 0){
+		                temp = ins_number[4] - 1;
+		                ins_number[4] = -10;
+		            }
+		            else{
+		                temp = ins_number[stall];
+		                ins_number[stall - 1] = -10;
+		            }
+		        }       
+		        cycles++;
+		        if(ins_number[2] < 0)
+		        	pc_value += 4;
+
+		        int b = main_program();
+		        for(i = 0;i<5;i++){
+		        	if(ins_number[i] >= 0 && ins_number[i] < row){
+		        		int w = 2;
+		        	}
+		        	else{
+		        		time_idle++;
+		        		break;
+		        	}
+		        }
+		        if(flag == 1 && check == 1){
+		            if(stall == 0){
+		                ins_number[4] = temp;
+		                flag = 0;
+		                check = 0;
+		            }
+		            else{
+		                ins_number[stall - 1] = temp;
+		            }
+		        }
+		        if(b == 1){
+		        	stall = 1;
+		            stalls = stalls + 1;
+		            ins_number[0] = ins_number[0] - 1;
+		            pc_value -= 4; 
+		            ins_number[stall] = -10;
+		            check = 1;
+		        }
 	    }
 	    else {
 	    	printf("Unrecognized Character\n");
 	    }
     }
 }
+
